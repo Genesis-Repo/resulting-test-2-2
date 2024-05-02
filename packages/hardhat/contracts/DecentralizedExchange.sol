@@ -9,11 +9,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract DecentralizedExchange is Ownable, ReentrancyGuard {
+    string public decentralizedExchangeName;
     mapping(address => mapping(address => uint256)) public tradingPairs;
 
     event TokensDeposited(address indexed user, address token, uint256 amount);
     event TokensWithdrawn(address indexed user, address token, uint256 amount);
     event Trade(address indexed user, address tokenIn, uint256 amountIn, address tokenOut, uint256 amountOut);
+
+    constructor(string memory _dexName) {
+        decentralizedExchangeName = _dexName;
+    }
 
     function depositTokens(address _token, uint256 _amount) external {
         IERC20(_token).transferFrom(msg.sender, address(this), _amount);
